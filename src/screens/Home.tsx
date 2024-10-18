@@ -2,11 +2,11 @@ import { ArrowRight, Tag } from 'phosphor-react-native'
 import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { Header } from '../components/Header'
-import { Marketplace } from '../components/Marketplace'
+import { Marketplace } from '../components/Marketplace/Marketplace'
 
 export function Home() {
   return (
-    <View className="flex flex-col px-6 pt-12">
+    <View className=" h-screen flex flex-col px-6 pt-12 bg-bg-gray_6">
       <Header />
 
       <Text className="mt-8 text-left text-sm font-light text-gray-3">
