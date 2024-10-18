@@ -7,6 +7,10 @@ module.exports = {
         'bg-gray_6': '#EDECEE',
         'gray-3': '#5F5B62',
         'gray-2': '#3E3A40',
+        'border-purple': '#647AC7',
+      },
+      backgroundColor: {
+        'bg-purple': '#647AC7',
       },
     },
   },

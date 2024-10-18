@@ -44,8 +44,8 @@ export function Login() {
           </TouchableOpacity>
         </View>
 
-        <View className=" items-center justify-start mb-20  px-10 rounded-b-3xl">
-          <Text className="mt-20 text-sm text-gray-2">
+        <View className=" items-center justify-start mb-40  px-10 rounded-b-3xl">
+          <Text className="mt-10 text-sm text-gray-2">
             Ainda não tem acesso?
           </Text>
 
