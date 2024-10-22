@@ -28,7 +28,8 @@ export function Marketplace() {
         </View>
       </View>
 
-      <View>
+      <View className="w-full border mt-10  flex  flex-wrap flex-row ">
+        <ProductCard />
         <ProductCard />
       </View>
     </View>
