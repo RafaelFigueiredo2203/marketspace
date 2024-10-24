@@ -60,7 +60,11 @@ export function Marketplace() {
         }}
       >
         <View className="bg-gray-900/80 h-screen flex items-end justify-end">
-          <View className="h-2/3 w-full flex items-center bg-bg-gray_6 rounded-t-3xl px-6 pt-4">
+          <Pressable
+            onPress={() => setModalVisible(false)}
+            className=" w-full h-full"
+          />
+          <View className=" w-full flex items-center bg-bg-gray_6 rounded-t-3xl px-6 pt-4">
             <View className="bg-gray-400 h-1 w-14 rounded-lg" />
 
             <View className="flex flex-row w-full items-center justify-between mt-7">
@@ -109,11 +113,82 @@ export function Marketplace() {
                 Meios de pagamento aceitos
               </Text>
 
-              <Checkbox
-                value={isChecked}
-                onValueChange={setChecked}
-                color={isChecked ? '#4630EB' : undefined}
-              />
+              <View className="flex flex-row items-center justify-start mt-2">
+                <Checkbox
+                  className="mr-2"
+                  value={isChecked}
+                  onValueChange={setChecked}
+                  color={isChecked ? '#647AC7' : undefined}
+                />
+
+                <Text className="text-base text-gray-2 font-normal">
+                  Boleto
+                </Text>
+              </View>
+
+              <View className="flex flex-row items-center justify-start mt-2">
+                <Checkbox
+                  className="mr-2"
+                  value={isChecked}
+                  onValueChange={setChecked}
+                  color={isChecked ? '#647AC7' : undefined}
+                />
+
+                <Text className="text-base text-gray-2 font-normal">Pix</Text>
+              </View>
+
+              <View className="flex flex-row items-center justify-start mt-2">
+                <Checkbox
+                  className="mr-2"
+                  value={isChecked}
+                  onValueChange={setChecked}
+                  color={isChecked ? '#647AC7' : undefined}
+                />
+
+                <Text className="text-base text-gray-2 font-normal">
+                  Dinheiro
+                </Text>
+              </View>
+
+              <View className="flex flex-row items-center justify-start mt-2">
+                <Checkbox
+                  className="mr-2"
+                  value={isChecked}
+                  onValueChange={setChecked}
+                  color={isChecked ? '#647AC7' : undefined}
+                />
+
+                <Text className="text-base text-gray-2 font-normal">
+                  Cartão de Crédito
+                </Text>
+              </View>
+
+              <View className="flex flex-row items-center justify-start mt-2">
+                <Checkbox
+                  className="mr-2"
+                  value={isChecked}
+                  onValueChange={setChecked}
+                  color={isChecked ? '#647AC7' : undefined}
+                />
+
+                <Text className="text-base text-gray-2 font-normal">
+                  Depósito Bancário
+                </Text>
+              </View>
+
+              <View className="flex w-full flex-row space-x-2 justify-between mt-2 mb-10">
+                <TouchableOpacity className="w-1/2 bg-gray-300 h-11  mt-6 rounded-lg flex items-center justify-center">
+                  <Text className="text-gray-700 font-bold text-sm">
+                    Resetar Filtros
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity className="w-1/2 bg-black h-11  mt-6 rounded-lg flex items-center justify-center">
+                  <Text className="text-white font-bold text-sm">
+                    Aplicar Filtros
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
