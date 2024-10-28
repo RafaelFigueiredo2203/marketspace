@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import { ProductDetails } from './src/screens/ProductDetails'
+import { MyProductDetails } from './src/screens/MyAds/MyProductDetails'
 
 export default function App() {
   return (
     <>
       <StatusBar translucent />
-      <ProductDetails />
+      <MyProductDetails />
     </>
   )
 }
