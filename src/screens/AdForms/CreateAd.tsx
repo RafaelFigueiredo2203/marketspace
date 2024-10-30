@@ -173,12 +173,12 @@ export function CreateAd() {
               </Text>
             </View>
           </View>
-          <View className="flex w-full flex-row space-x-2 justify-between mt-6 mb-16">
-            <TouchableOpacity className="w-1/2 bg-gray-300 h-11  mt-6 rounded-lg flex items-center justify-center">
+          <View className="flex w-full flex-row items-center mt-6 mb-10 ">
+            <TouchableOpacity className="flex-1 bg-gray-300 h-11 rounded-lg flex items-center justify-center mr-2">
               <Text className="text-gray-700 font-bold text-sm">Cancelar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity className="w-1/2 bg-black h-11  mt-6 rounded-lg flex items-center justify-center">
+            <TouchableOpacity className="flex-1 bg-black h-11 rounded-lg flex items-center justify-center">
               <Text className="text-white font-bold text-sm">Avançar</Text>
             </TouchableOpacity>
           </View>
