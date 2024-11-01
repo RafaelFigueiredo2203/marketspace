@@ -1,7 +1,10 @@
 import Checkbox from 'expo-checkbox'
+import * as ImagePicker from 'expo-image-picker'
 import { ArrowLeft, Plus } from 'phosphor-react-native'
 import React, { useState } from 'react'
+
 import {
+  Image,
   ScrollView,
   Switch,
   Text,
@@ -14,6 +17,25 @@ export function CreateAd() {
   const [isChecked, setChecked] = useState(false)
   const [isEnabled, setIsEnabled] = useState(false)
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState)
+  const [imageUris, setImageUris] = useState<string[]>([])
+
+  async function pickImage() {
+    // Solicita permissão para acessar a galeria
+
+    // Seleciona uma imagem
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    })
+
+    if (!result.canceled) {
+      // Adiciona o URI da imagem ao array de imagens
+      setImageUris((prevUris) => [...prevUris, result.assets[0].uri])
+    }
+    console.log(imageUris)
+  }
 
   return (
     <>
@@ -35,11 +57,25 @@ export function CreateAd() {
             Escolha até 3 imagens para mostrar o quanto o seu produto é
             incrível!
           </Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View className="mt-4  h-24 w-full flex flex-row items-center justify-center  rounded-lg">
+              {imageUris.map((uri, index) => (
+                <Image
+                  key={index}
+                  source={{ uri }}
+                  className=" w-24 h-24 rounded-lg mr-2"
+                  alt="productImage"
+                />
+              ))}
 
-          <TouchableOpacity className="mt-4 w-24 h-24 flex items-center justify-center bg-gray-300 rounded-lg">
-            <Plus size={24} color="#9F9BA1" />
-          </TouchableOpacity>
-
+              <TouchableOpacity
+                onPress={pickImage}
+                className=" w-24 h-24 flex items-center justify-center bg-gray-300 rounded-lg"
+              >
+                <Plus size={24} color="#9F9BA1" />
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
           <Text className="text-base font-bold text-base text-gray-2 mt-6">
             Sobre o produto
           </Text>
