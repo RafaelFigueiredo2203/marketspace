@@ -1,4 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import Toast from 'react-native-toast-message'
+
 import * as FileSystem from 'expo-file-system'
 import * as ImagePicker from 'expo-image-picker'
 import { Pencil, User } from 'phosphor-react-native'
@@ -15,7 +17,7 @@ import {
 } from 'react-native'
 import { z } from 'zod'
 import { api } from '../../services/api'
-import { AppError } from '../../utils/ApppError'
+import { AppError } from '../../utils/AppError'
 
 const registerSchema = z
   .object({
@@ -49,23 +51,61 @@ export function Register() {
   } = useForm<RegisterTypeSchema>({
     resolver: zodResolver(registerSchema),
   })
+
   const onSubmit = async (data: RegisterTypeSchema) => {
     // eslint-disable-next-line camelcase
     const { confirm_password, name, email, tel } = data
-    // eslint-disable-next-line camelcase
-    console.log({ name, email, tel, confirm_password, photoSelected })
 
     try {
-      await api.post('/users', {
-        name,
-        email,
-        tel,
-        // eslint-disable-next-line camelcase
-        password: confirm_password,
-        avatar: photoSelected,
+      // Crie o FormData e anexe os campos do formulário
+      const formData = new FormData()
+      formData.append('name', name)
+      formData.append('email', email)
+      formData.append('tel', tel)
+      formData.append('password', confirm_password)
+
+      // Anexe a foto selecionada, se existir
+      if (photoSelected) {
+        formData.append('avatar', {
+          uri: photoSelected,
+          type: 'image/jpeg', // Ajuste o tipo conforme a extensão
+          name: 'avatar.jpg', // Nome do arquivo
+        })
+      }
+
+      // Envie o FormData com os dados do usuário e o avatar
+      await api.post('/users', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+
+      // Notifica o sucesso se não houver erros
+      Toast.show({
+        type: 'success',
+        text1: 'Sucesso ✔',
+        text2: 'Cadastro realizado com sucesso! ✔ ',
       })
     } catch (error) {
-      console.log(error)
+      const err = error as AppError // Tipagem do erro
+      if (err.response && err.response.data) {
+        // Captura a mensagem de erro específica retornada pelo backend
+        const errorMessage = err.response.data.message
+
+        Toast.show({
+          type: 'error',
+          text1: 'Erro ❗',
+          text2: errorMessage,
+        }) // Passa a mensagem de erro para a notificação
+      } else {
+        // Erro genérico caso não haja resposta do backend
+        console.error('Erro desconhecido:', error)
+        Toast.show({
+          type: 'error',
+          text1: 'Erro ❗',
+          text2: 'Erro inesperado ,tente novamente mais tarde!',
+        })
+      }
     }
   }
 
@@ -112,15 +152,6 @@ export function Register() {
         })
       }
     } catch (error) {
-      const isAppError = error instanceof AppError
-      const title = isAppError
-        ? error.message
-        : 'Não foi possível criar , tente novamente mais tarde!'
-      console.log({
-        title,
-        placement: 'top',
-        bgColor: 'red.500',
-      })
     } finally {
       setIsPhotoLoading(false)
     }

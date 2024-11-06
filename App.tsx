@@ -1,12 +1,17 @@
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import { CreateAd } from './src/screens/AdForms/CreateAd'
+import Toast from 'react-native-toast-message'
+import { AuthContextProvider } from './src/contexts/auth-context'
+import { Register } from './src/screens/AuthScreens/Register'
 
 export default function App() {
   return (
     <>
       <StatusBar translucent />
-      <CreateAd />
+      <AuthContextProvider>
+        <Register />
+      </AuthContextProvider>
+      <Toast />
     </>
   )
 }

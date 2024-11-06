@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import React from 'react'
+import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import {
   Image,
@@ -9,7 +9,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
+import Toast from 'react-native-toast-message'
 import { z } from 'zod'
+import { Loading } from '../../components/Loading'
+import { useAuth } from '../../hooks/useAuth'
+import { AppError } from '../../utils/AppError'
 
 const loginSchema = z.object({
   email: z
@@ -23,6 +27,10 @@ const loginSchema = z.object({
 type LoginTypeSchema = z.infer<typeof loginSchema>
 
 export function Login() {
+  const [isLoading, setIsLoading] = useState(false)
+
+  const { SignIn } = useAuth()
+
   const {
     control,
     handleSubmit,
@@ -31,10 +39,26 @@ export function Login() {
     resolver: zodResolver(loginSchema),
   })
   const onSubmit = async (data: LoginTypeSchema) => {
-    // eslint-disable-next-line camelcase
     const { password, email } = data
-    // eslint-disable-next-line camelcase
-    console.log({ password, email })
+
+    try {
+      setIsLoading(true)
+      await SignIn(email, password)
+      console.log('Logado!')
+    } catch (error) {
+      console.log(error)
+      const isAppError = error as AppError
+
+      const title = isAppError
+        ? isAppError.response.data.message
+        : 'Não foi possível entrar , tente novamente mais tarde !'
+      Toast.show({
+        type: 'error',
+        text1: 'Erro ❗',
+        text2: title,
+      })
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -101,7 +125,11 @@ export function Login() {
             onPress={handleSubmit(onSubmit)}
             className="w-full bg-[#647AC7] h-11 mb-9  mt-10 rounded-lg flex items-center justify-center"
           >
-            <Text className="text-white">Entrar</Text>
+            {!isLoading ? (
+              <Text className="text-white">Entrar</Text>
+            ) : (
+              <Loading />
+            )}
           </TouchableOpacity>
         </View>
 
